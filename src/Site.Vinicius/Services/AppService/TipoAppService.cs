@@ -1,52 +1,57 @@
 ﻿using Site.Vinicius.Interfaces.AppService;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Site.Vinicius.ViewModels;
 using System.Linq.Expressions;
 using Site.Vinicius.Models.Repository;
 using Site.Vinicius.Models.Interfaces;
+using AutoMapper;
+using Site.Vinicius.Models;
 
 namespace Site.Vinicius.Services.AppService
 {
     public class TipoAppService : ITipoAppService
     {
-        private TipoRepository _tipoRepository;
+        private ITipoRepository _tipoRepository;
 
-        public TipoAppService(ITipoRepository tipoRepository)
+        public TipoAppService(TipoRepository tipoRepository)
         {
-        //    this._tipoRepository = tipoRepository;
+            this._tipoRepository = tipoRepository;
         }
 
         public TipoViewModel Atualizar(TipoViewModel tipoViewModel)
         {
-            throw new NotImplementedException();
+            var tipo = _tipoRepository.Atualizar(Mapper.Map<Tipo>(tipoViewModel));
+            return Mapper.Map<TipoViewModel>(tipo);
+
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _tipoRepository.Dispose();
         }
 
         public TipoViewModel Inserir(TipoViewModel tipoViewModel)
         {
-            throw new NotImplementedException();
+            var tipo = _tipoRepository.Inserir(Mapper.Map<Tipo>(tipoViewModel));
+            return Mapper.Map<TipoViewModel>(tipo);
         }
 
         public IEnumerable<TipoViewModel> Pesquisar(Expression<Func<TipoViewModel, bool>> Predicate)
         {
-            throw new NotImplementedException();
+            var pesquisa = _tipoRepository.Pesquisar(Mapper.Map<Expression<Func<Tipo, bool>>>(Predicate));
+            return Mapper.Map<IEnumerable<TipoViewModel>>(pesquisa);
         }
 
         public TipoViewModel TrazerPorId(Guid Id)
         {
-            throw new NotImplementedException();
+            var tipo = _tipoRepository.TrazerPorId(Id);
+            return Mapper.Map<TipoViewModel>(tipo);
         }
 
         public IEnumerable<TipoViewModel> TrazerTodosAtivos()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<TipoViewModel>>(_tipoRepository.TrazerTodosAtivos());
         }
     }
 }
